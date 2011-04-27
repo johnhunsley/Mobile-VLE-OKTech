@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.mobilevle.oktech</groupId>
+   <artifactId>MobileVLE_OKTech</artifactId>
+   <version>1.0</version>
+   <packaging>jar</packaging>
+   <name>Mobile VLE OKTech</name>
+   <description>Mobile VLE VLEHandler Implementation for Moodle OKTech web services</description>
+   
+   <properties>
+     <android-version>1.6_r1</android-version>
+     <android-platform>platforms/android-1.6</android-platform>
+   </properties>
+   
+   <dependencies>
+       <dependency>
+          <groupId>android</groupId>
+          <artifactId>android</artifactId>
+          <version>${android-version}</version>
+          <scope>system</scope>
+          <systemPath>${android.home}${file.separator}${android-platform}${file.separator}android.jar</systemPath>
+       </dependency>
+       <dependency>
+          <groupId>com.mobilevle.core</groupId>
+          <artifactId>MobileVLE_Core</artifactId>
+          <version>1.0</version>
+       </dependency>
+       <dependency>
+          <groupId>net.sf.kxml</groupId>
+          <artifactId>kxml2</artifactId>
+          <version>2.3.0</version>
+       </dependency>
+       <dependency>
+          <groupId>org.ksoap</groupId>
+          <artifactId>ksoap2</artifactId>
+          <version>2.1.1</version>
+       </dependency>         
+   </dependencies>
+   
+   <build>
+
+      <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <!-- Convert the compiled classes into a clases.dex. -->
+                    <execution>
+                        <id>generate-dex</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${android.home}/${android-platform}/tools/dx</executable>
+                            <arguments>
+                                <!--<argument>-JXmx1024M</argument>-->
+                                <argument>--dex</argument>
+                                <argument>--verbose</argument>
+                                <argument>--core-library</argument>
+                                <argument>--output=${project.build.directory}/classes.dex</argument>
+                                <argument>--positions=lines</argument>
+                                <argument>${project.build.directory}/classes/</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+      </plugins>
+   </build>
+</project>
